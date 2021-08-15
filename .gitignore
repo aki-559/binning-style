@@ -1,0 +1,7 @@
+/data/
+/__pycache__/
+poetry.lock
+pyproject.toml
+*.fasta
+*.fna
+*.pt

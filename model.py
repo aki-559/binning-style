@@ -17,7 +17,7 @@ def train(model, device, loader, optimizer, epoch):
         loss.backward()
         optimizer.step()
 
-        print("\rTrain Epoch: {} [ {:0=5}/{:0=5} ({:.0f}%)]\t Loss: {:.4f}".format(epoch,
+        print("\rTrain Epoch: {} [ {:0=5}/{:0=5} ({:.0f}%) ]\t Loss: {:.4f}".format(epoch,
             batch_idx+1, data_size, (batch_idx + 1) * 100. / data_size, loss.item()
         ), end="")
 
@@ -104,7 +104,6 @@ class Discriminator(nn.Module):
 
     def get_style(self, x, layer):
         x = self.conv_layers[:layer](x)
-        x = torch.squeeze(x)
-        gram = torch.mm(x, torch.t(x))
+        gram = torch.matmul(x, x.permute(0,2,1))
         
         return gram
