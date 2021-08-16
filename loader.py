@@ -111,6 +111,7 @@ class DataLoader():
 
             return np.apply_along_axis(crop, 1, idx.reshape(-1, 1), self.is_train), self.labels[idx]
 
+    # sample sequences randomly from specified species
     def get_one(self, ind):
-        start = np.random.randint(self.lens[ind]-self.length)
-        return torch.tensor(self.seqs[ind][start:start+self.length].T).unsqueeze(0)
+        start = np.random.randint(self.lens[ind] - self.length + 1)
+        return self.seqs[ind][:,:,start:start+self.length]
