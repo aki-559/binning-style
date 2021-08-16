@@ -75,6 +75,10 @@ class DataLoader():
         self.lens = np.array([x.size(2) for x in seqs])
         self.bounds = self.lens if self.use_all else np.array([int(x.size(2) * self.test_size) for x in self.seqs])
 
+        # raise an error if you have sequences in "seqs" shorter than sampling length
+        if self.lens.min() < self.length:
+            raise Exception("Your dataset contain sequences shorter than sampling length({} bp).".format(self.length))
+
     def __iter__(self):
         return self
 

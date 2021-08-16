@@ -2,7 +2,7 @@ import argparse
 import torch
 import torch.optim as optim
 import numpy as np
-from model import Discriminator, train, test
+from model import Discriminator, train, test, receptive_field
 from loader import DataLoader, read_all, to_tensor
 from Bio import SeqIO
 
@@ -36,6 +36,10 @@ if __name__ == "__main__":
     
     model = Discriminator(args.length, len(species)).to(device)
     optimizer = optim.Adam(model.parameters(), lr=args.rate)
+
+    # raise an error if receptive field is smaller than sampling length
+    if args.length < receptive_field(model):
+        raise Exception("Input sequences must be longer than {} bp.".format(receptive_field(model)))
 
     for epoch in range(args.epoch):
         train(model, device, loader, optimizer, epoch+1)

@@ -48,6 +48,9 @@ def test(model, device, loader):
     
     return val_loss
 
+def receptive_field(model):
+    return 2**len(model.conv_layers)
+
 class Discriminator(nn.Module):
     def __init__(self, input_dim, output_dim):
         super(Discriminator, self).__init__()
@@ -103,6 +106,10 @@ class Discriminator(nn.Module):
         return x
 
     def get_style(self, x, layer):
+        # raise an error if x is long enough to calculate style matrices.
+        if x.size(2) < 2**layer:
+            raise Exception("Input sequences must be longer than {} bp.".format(2**layer))
+            
         x = self.conv_layers[:layer](x)
         gram = torch.matmul(x, x.permute(0,2,1))
         
