@@ -94,6 +94,7 @@ class DataLoader():
 
     def __len__(self):
         return self.n_batch
+
     def get_batch(self):
         if self.how=="random":
             idx = np.random.randint(len(self.bounds), size=self.batch_size)
@@ -102,9 +103,9 @@ class DataLoader():
                 label = arr[0]
 
                 if is_train:
-                    start = np.random.randint(self.bounds[label] - self.length)
+                    start = random.randint(0, self.bounds[label] - self.length)
                 else:
-                    start = np.random.randint(self.bounds[label], self.lens[label] - self.length)
+                    start = random.randint(self.bounds[label], self.lens[label] - self.length)
 
                 return self.seqs[label][0,:,start:start+self.length].numpy()
 

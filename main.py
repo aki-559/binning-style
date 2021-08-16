@@ -28,7 +28,7 @@ if __name__ == "__main__":
     if args.verbose > 1: print("Reading fasta...")
     species, seqs, labels = read_all(args.dir)
 
-    loader = DataLoader(batch_size=args.batch_size, use_all=True, n_batch=args.n_steps)
+    loader = DataLoader(batch_size=args.batch_size, length=args.length, use_all=True, n_batch=args.n_steps)
     loader(species, seqs, labels)
 
     # train model
