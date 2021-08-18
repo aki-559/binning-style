@@ -18,11 +18,15 @@ if __name__ == "__main__":
     parser.add_argument("--batch-size", help="batch size", type=int, default=64)
     parser.add_argument("--n-steps", help="number of steps per epoch", type=int, default=500)
     parser.add_argument("--length", help="length of sampled sequence", type=int, default=1024)
+    parser.add_argument("--device",
+        help="'cuda' if you use gpu, 'cpu' otherwise. To specify which gpu to use, add device id afterwards. ex) 'cuda:0'", default="cpu")
 
     args = parser.parse_args()
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    device = torch.device(device)
+    if args.device.startswith("cuda") and not torch.cuda.is_available():
+        raise Exception("GPU is selected but not available.")
+
+    device = torch.device(args.device)
 
     # Read data
     if args.verbose > 1: print("Reading fasta...")
