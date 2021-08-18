@@ -27,8 +27,9 @@ def sanitize(seq, unknown_as_label=False):
     seq = re.sub(r"D", ["A", "G", "T"][random.randint(0, 2)], seq)
     seq = re.sub(r"H", ["A", "C", "T"][random.randint(0, 2)], seq)
     seq = re.sub(r"M", ["A", "C"][random.randint(0, 1)], seq)
+    seq = re.sub(r"V", ["G", "C", "A"][random.randint(0, 2)], seq)
 
-    if unknown_as_label:
+    if not unknown_as_label:
         seq = re.sub(r"N", base[:-1][random.randint(0, 3)], seq)
 
     return seq
